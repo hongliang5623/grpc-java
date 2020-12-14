@@ -22,7 +22,7 @@ import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import java.lang.reflect.Field
+import java.lang.reflect.Field;
 
 /**
  * Server that manages startup/shutdown of a {@code Greeter} server.
@@ -91,11 +91,13 @@ public class HelloWorldServer {
     @Override
     public void sayHelloAgain(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
       logger.info("req:" + req);
+
       Field[] fields = HelloRequest.class.getDeclaredFields();
       for (Field field : fields) {
         logger.info("field:" + field.getName());
       }
-      logger.info("byte:" + req.toByteArray().length);
+      logger.info("req byte:" + req.toByteArray().length);
+      logger.info("req size:" + req.getSerializedSize());
       HelloReply reply = HelloReply.newBuilder().setMessage("Hello again " + req.getName()).build();
       responseObserver.onNext(reply);
       responseObserver.onCompleted();
