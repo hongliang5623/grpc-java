@@ -83,7 +83,7 @@ final class ServerXdsClient extends AbstractXdsClient {
     listenerWatcher = checkNotNull(watcher, "watcher");
     checkArgument(port > 0, "port needs to be > 0");
     listenerPort = port;
-    if (useNewApiForListenerQuery) {
+    if (newServerApi) {
       String listeningAddress = instanceIp + ":" + listenerPort;
       grpcServerResourceId =
           grpcServerResourceId + "?udpa.resource.listening_address=" + listeningAddress;
@@ -112,10 +112,7 @@ final class ServerXdsClient extends AbstractXdsClient {
   @Nullable
   @Override
   Collection<String> getSubscribedResources(ResourceType type) {
-    if (type != ResourceType.LDS) {
-      return null;
-    }
-    if (useNewApiForListenerQuery) {
+    if (newServerApi) {
       return ImmutableList.<String>of(grpcServerResourceId);
     } else {
       return Collections.emptyList();
@@ -183,17 +180,28 @@ final class ServerXdsClient extends AbstractXdsClient {
   }
 
   private boolean isRequestedListener(Listener listener) {
+<<<<<<< HEAD
     if (useNewApiForListenerQuery) {
       return grpcServerResourceId.equals(listener.getName())
           && listener.getTrafficDirection().equals(TrafficDirection.INBOUND)
           && isAddressMatching(listener.getAddress(), listenerPort);
+=======
+    if (newServerApi) {
+      return grpcServerResourceId.equals(listener.getName())
+              && listener.getTrafficDirection().equals(TrafficDirection.INBOUND)
+              && isAddressMatching(listener.getAddress(), listenerPort);
+>>>>>>> baed68b09c91ccdb0923301fe656c4f5dafe751f
     }
     return isAddressMatching(listener.getAddress(), 15001)
         && hasMatchingFilter(listener.getFilterChainsList());
   }
 
   private boolean isAddressMatching(Address address, int portToMatch) {
+<<<<<<< HEAD
     return address.hasSocketAddress() && address.getSocketAddress().getPortValue() == portToMatch;
+=======
+    return address.hasSocketAddress() && (address.getSocketAddress().getPortValue() == portToMatch);
+>>>>>>> baed68b09c91ccdb0923301fe656c4f5dafe751f
   }
 
   private boolean hasMatchingFilter(List<FilterChain> filterChainsList) {
