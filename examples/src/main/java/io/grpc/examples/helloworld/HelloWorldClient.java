@@ -53,6 +53,13 @@ public class HelloWorldClient {
       return;
     }
     logger.info("Greeting: " + response.getMessage());
+    try {
+      response = blockingStub.sayHelloAgain(request);
+    } catch (StatusRuntimeException e) {
+      logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+      return;
+    }
+    logger.info("new Greeting: " + response.getMessage());
   }
 
   /**
@@ -60,7 +67,7 @@ public class HelloWorldClient {
    * greeting. The second argument is the target server.
    */
   public static void main(String[] args) throws Exception {
-    String user = "world";
+    String user = "new, world!";
     // Access a service running on the local machine on port 50051
     String target = "localhost:50051";
     // Allow passing in the user and target strings as command line arguments

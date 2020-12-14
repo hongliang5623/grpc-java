@@ -78,11 +78,24 @@ public class HelloWorldServer {
     server.blockUntilShutdown();
   }
 
-  static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+  private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
       HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+    }
+
+    @Override
+    public void sayHelloAgain(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
+      logger.info("req:" + req);
+      Field[] fields = HelloRequest.class.getDeclaredFields();
+      for (Field field : fields) {
+        logger.info("field:" + field.getName());
+      }
+      logger.info("byte:" + req.toByteArray().length);
+      HelloReply reply = HelloReply.newBuilder().setMessage("Hello again " + req.getName()).build();
       responseObserver.onNext(reply);
       responseObserver.onCompleted();
     }
