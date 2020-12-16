@@ -86,9 +86,9 @@ public class HelloWorldServer {
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
       throw new StatusRuntimeException(Status.UNAVAILABLE);
-      HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
-      responseObserver.onNext(reply);
-      responseObserver.onCompleted();
+//      HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+//      responseObserver.onNext(reply);
+//      responseObserver.onCompleted();
     }
 
     @Override
