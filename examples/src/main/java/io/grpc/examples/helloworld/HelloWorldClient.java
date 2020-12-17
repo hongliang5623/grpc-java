@@ -16,6 +16,7 @@
 
 package io.grpc.examples.helloworld;
 
+import io.grpc.Status;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
