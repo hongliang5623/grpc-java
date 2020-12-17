@@ -49,7 +49,11 @@ public class HelloWorldClient {
     HelloReply response;
     try {
       response = blockingStub.sayHello(request);
+      if (true){
+        throw new StatusRuntimeException(Status.DEADLINE_EXCEEDED);
+      }
     } catch (StatusRuntimeException e) {
+      
       if (e.getStatus() instanceof Status){
         logger.log(Level.WARNING, "RPC failed, fdfdffdffff: {0}", e.getStatus().getCode());
         String msg = "abc:" + e.getStatus().getCode();
